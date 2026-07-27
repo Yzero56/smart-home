@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>YoungJi's Smart Home</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "on-primary": "#ffffff",
+            "text-muted": "#7A928F",
+            "surface-variant": "#e1e3e3",
+            "text-main": "#334744",
+            "surface-tint": "#386660",
+            "error-container": "#ffdad6",
+            "on-tertiary-fixed-variant": "#673b2e",
+            "on-surface-variant": "#404847",
+            "on-tertiary": "#ffffff",
+            "secondary": "#43655e",
+            "inverse-on-surface": "#eff1f1",
+            "on-error-container": "#93000a",
+            "primary-fixed-dim": "#9fd0c8",
+            "background": "#f8fafa",
+            "primary-container": "#a5d6ce",
+            "surface-dim": "#d8dada",
+            "tertiary-fixed": "#ffdbd1",
+            "on-primary-fixed-variant": "#1e4e49",
+            "tertiary-fixed-dim": "#f6b8a6",
+            "surface-bright": "#f8fafa",
+            "tertiary-container": "#fdbeac",
+            "outline-variant": "#c0c8c6",
+            "tertiary": "#825244",
+            "on-tertiary-container": "#794b3d",
+            "surface": "#f8fafa",
+            "surface-glass": "rgba(255, 255, 255, 0.7)",
+            "on-primary-fixed": "#00201d",
+            "on-background": "#191c1d",
+            "surface-container": "#eceeee",
+            "error": "#ba1a1a",
+            "on-secondary-fixed-variant": "#2b4d47",
+            "on-secondary-container": "#476963",
+            "primary": "#386660",
+            "secondary-fixed-dim": "#a9cec6",
+            "inverse-surface": "#2e3131",
+            "outline": "#707977",
+            "on-secondary": "#ffffff",
+            "surface-container-low": "#f2f4f4",
+            "on-tertiary-fixed": "#331107",
+            "secondary-fixed": "#c5eae2",
+            "on-error": "#ffffff",
+            "surface-container-high": "#e6e8e9",
+            "primary-fixed": "#bbece4",
+            "border-subtle": "rgba(165, 214, 206, 0.2)",
+            "surface-container-highest": "#e1e3e3",
+            "surface-container-lowest": "#ffffff",
+            "secondary-container": "#c2e7df",
+            "on-primary-container": "#2f5e58",
+            "on-surface": "#191c1d",
+            "on-secondary-fixed": "#00201c",
+            "inverse-primary": "#9fd0c8"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "card-gap": "16px",
+            "container-padding": "24px",
+            "section-margin": "40px",
+            "unit": "8px"
+          },
+          "fontFamily": {
+            "headline-lg": ["Plus Jakarta Sans"],
+            "headline-lg-mobile": ["Plus Jakarta Sans"],
+            "body-md": ["Plus Jakarta Sans"],
+            "headline-xl": ["Plus Jakarta Sans"],
+            "label-caps": ["Plus Jakarta Sans"],
+            "data-display": ["Plus Jakarta Sans"]
+          },
+          "fontSize": {
+            "headline-lg": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+            "headline-lg-mobile": ["22px", {"lineHeight": "28px", "fontWeight": "600"}],
+            "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+            "headline-xl": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+            "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+            "data-display": ["32px", {"lineHeight": "40px", "fontWeight": "500"}]
+          }
+        },
+      },
+    }
+  </script>
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: #f8fafa;
+      color: #191c1d;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .glass {
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+    }
+    .soft-shadow {
+      box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+    }
+    .active-glow {
+      box-shadow: 0 0 20px rgba(165, 214, 206, 0.4);
+    }
+    .hide-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .terminal-scroll::-webkit-scrollbar {
+      width: 4px;
+    }
+    .terminal-scroll::-webkit-scrollbar-thumb {
+      background: rgba(56, 102, 96, 0.2);
+      border-radius: 10px;
+    }
+    body {
+      min-height: max(884px, 100dvh);
+    }
+    .toast {
+      background: rgba(25, 28, 29, 0.95);
+      color: white;
+      padding: 12px 16px;
+      border-radius: 16px;
+      font-size: 14px;
+      font-weight: 600;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      animation: slideUp 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      transition: all 0.3s ease;
+    }
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(12px) translateX(-50%); }
+      to { opacity: 1; transform: translateY(0) translateX(-50%); }
+    }
+  </style>
+</head>
+<body class="min-h-screen pb-32">
+  <!-- Bluetooth Connection Overlay -->
+  <div class="fixed inset-0 z-[100] glass flex flex-col items-center justify-center p-container-padding transition-all duration-500" id="conn-overlay">
+    <div class="relative w-64 h-64 mb-12 flex items-center justify-center">
+      <div class="absolute inset-0 bg-primary/10 rounded-full animate-ping opacity-20"></div>
+      <div class="w-48 h-48 bg-primary/20 rounded-full flex items-center justify-center">
+        <span class="material-symbols-outlined text-6xl text-primary animate-pulse" style="font-variation-settings: 'FILL' 1;">bluetooth</span>
+      </div>
+    </div>
+    <h2 class="font-headline-lg-mobile text-headline-lg-mobile text-center mb-2">Ready to Connect</h2>
+    <p class="text-text-muted text-center mb-4 max-w-[280px]">Turn on your ESP_JI device to start managing your smart home.</p>
+    <label class="flex items-center gap-2 mb-8 cursor-pointer select-none">
+      <input type="checkbox" id="scan-all-chk" class="rounded border-subtle text-primary focus:ring-primary w-4 h-4" />
+      <span class="text-xs font-semibold text-text-muted">모든 블루투스 기기 검색 (수동 연결)</span>
+    </label>
+    <button class="w-full max-w-[320px] bg-primary text-on-primary py-4 rounded-full font-bold text-lg soft-shadow active:scale-95 transition-transform" id="btn-connect">
+      Connect to ESP_JI
+    </button>
+  </div>
+
+  <!-- Top App Bar -->
+  <header class="fixed top-0 left-0 w-full z-50 flex items-center justify-between px-container-padding h-16 bg-surface-glass backdrop-blur-xl border-b border-subtle shadow-sm">
+    <div class="flex items-center gap-3">
+      <span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">bluetooth_connected</span>
+      <h1 class="font-headline-lg-mobile text-headline-lg-mobile font-bold text-on-surface">YoungJi's Smart Home</h1>
+    </div>
+    <div class="flex items-center gap-2">
+      <div class="px-3 py-1 rounded-full bg-surface-container-high text-[10px] font-bold uppercase tracking-widest text-text-muted transition-colors" id="status-pill">
+        Disconnected
+      </div>
+      <button class="material-symbols-outlined text-primary hover:opacity-80 transition-opacity active:scale-90" id="btn-disconnect-header" style="display:none;">logout</button>
+    </div>
+  </header>
+
+  <!-- Main Dashboard Content -->
+  <main class="mt-24 px-container-padding max-w-[480px] mx-auto space-y-6 blur-[4px] pointer-events-none opacity-60 transition-all duration-300" id="dashboard-main">
+    
+    <div id="view-home" class="space-y-6">
+      <!-- Hero Device Preview -->
+      <div class="relative w-full h-64 rounded-[32px] overflow-hidden soft-shadow border border-subtle bg-primary-container/20 p-6 flex flex-col justify-between">
+        <div class="absolute top-0 right-0 w-1/2 h-full">
+          <img class="w-full h-full object-contain object-right transform translate-x-4 scale-110" data-alt="A sleek minimalist IoT device render on a soft mint green background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAIP_LIHQNvL8_KSBsreSYnezuiB5xXfbEJUOX1BPOp0fUs8gm0tkMu3p7tQJP-HGxUxevK19X6oTjM_dlBYX9ccuLGes8SRPYuU9zHtIv0vfRjLFqLTJlEY8KWQntPwuWMeQveE7qgTrIsoSuYg41ACsCleInj5YXqa4WiXMO5LtH2zBp6ijXyDUJgG-iNB4IRayilnHqFhxvj9rBLGLQo-Z8j9vKA-jdIXDpSpJBIGK55UBrIWXmK9EjIM3T69_JWr8JoTd6JlQQ"/>
+        </div>
+        <div class="relative z-10">
+          <div class="inline-flex items-center gap-2 px-3 py-1 bg-white/50 backdrop-blur rounded-full mb-4">
+            <span class="w-2 h-2 rounded-full bg-primary" id="live-dot"></span>
+            <span class="text-[10px] font-bold uppercase tracking-wider text-primary" id="live-text">Scanning</span>
+          </div>
+          <h3 class="font-headline-lg text-text-main max-w-[140px]" id="device-title">ESP_JI</h3>
+          <p class="text-text-muted text-sm mt-1" id="device-subtitle">Searching for device...</p>
+        </div>
+        <div class="relative z-10 flex items-center gap-4">
+          <div class="flex flex-col">
+            <span class="text-[10px] font-bold text-text-muted uppercase">Protocol</span>
+            <span class="text-sm font-semibold text-text-main">BLE NUS</span>
+          </div>
+          <div class="w-px h-8 bg-primary/20"></div>
+          <div class="flex flex-col">
+            <span class="text-[10px] font-bold text-text-muted uppercase">Refresh</span>
+            <button class="text-sm font-bold text-primary flex items-center gap-1 active:scale-95" id="btn-refresh-all">
+              <span class="material-symbols-outlined text-sm">rotate_right</span> Sync
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sensor Grid -->
+      <section class="grid grid-cols-2 gap-4">
+        <!-- Climate Card -->
+        <div class="bg-white p-5 rounded-[24px] soft-shadow border border-subtle space-y-4" id="card-temp">
+          <div class="flex justify-between items-start">
+            <div class="p-2 bg-primary/10 rounded-xl">
+              <span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">thermostat</span>
+            </div>
+            <span class="text-[10px] font-bold text-text-muted uppercase mt-1">Climate</span>
+          </div>
+          <div class="space-y-1">
+            <div class="flex items-baseline gap-1">
+              <span class="text-3xl font-bold text-text-main" id="temp-val">--</span>
+              <span class="text-sm font-medium text-text-muted">°C</span>
+            </div>
+            <div class="flex items-center gap-2 text-text-muted">
+              <span class="material-symbols-outlined text-xs">water_drop</span>
+              <span class="text-xs font-semibold" id="humi-val">--% Humidity</span>
+            </div>
+          </div>
+        </div>
+        <!-- Light Card -->
+        <div class="bg-white p-5 rounded-[24px] soft-shadow border border-subtle space-y-4" id="card-light">
+          <div class="flex justify-between items-start">
+            <div class="p-2 bg-secondary/10 rounded-xl">
+              <span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">wb_sunny</span>
+            </div>
+            <span class="text-[10px] font-bold text-text-muted uppercase mt-1">Light</span>
+          </div>
+          <div class="space-y-1">
+            <div class="flex items-baseline gap-1">
+              <span class="text-3xl font-bold text-text-main" id="lux-val">--</span>
+              <span class="text-sm font-medium text-text-muted">ADC</span>
+            </div>
+            <div class="w-full bg-surface-container-low h-1.5 rounded-full overflow-hidden">
+              <div class="h-full bg-secondary transition-all duration-1000" id="lux-bar" style="width: 0%"></div>
+            </div>
+            <p class="text-[10px] font-semibold text-text-muted pt-1 truncate" id="light-desc">주변 밝기를 분석하고 있습니다.</p>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Device Controls -->
+    <section class="space-y-4" id="view-controls">
+      <h4 class="font-label-caps text-label-caps text-text-muted px-1">SYSTEM CONTROLS</h4>
+      <div class="grid grid-cols-1 gap-4">
+        <!-- Lighting Control -->
+        <div class="bg-white p-6 rounded-[24px] soft-shadow border border-subtle flex items-center justify-between">
+          <div class="flex items-center gap-4">
+            <div class="w-12 h-12 bg-primary/10 rounded-2xl flex items-center justify-center">
+              <span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">palette</span>
+            </div>
+            <div>
+              <p class="font-bold text-text-main">RGB Ambient LED</p>
+              <p class="text-xs text-text-muted">Smart Status Light</p>
+            </div>
+          </div>
+          <button class="w-14 h-8 rounded-full bg-surface-container relative transition-colors duration-300 active:scale-95" data-state="off" id="toggle-rgb">
+            <div class="w-6 h-6 bg-white rounded-full absolute top-1 left-1 shadow transition-transform duration-300"></div>
+          </button>
+        </div>
+        <!-- Display Control -->
+        <div class="bg-white p-6 rounded-[24px] soft-shadow border border-subtle">
+          <div class="flex items-center justify-between mb-6">
+            <div class="flex items-center gap-4">
+              <div class="w-12 h-12 bg-secondary/10 rounded-2xl flex items-center justify-center">
+                <span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">desktop_windows</span>
+              </div>
+              <div>
+                <p class="font-bold text-text-main">Interface Panels</p>
+                <p class="text-xs text-text-muted">LCD &amp; OLED Control</p>
+              </div>
+            </div>
+            <button class="w-14 h-8 rounded-full bg-surface-container relative transition-colors duration-300 active:scale-95" data-state="off" id="toggle-lcd">
+              <div class="w-6 h-6 bg-white rounded-full absolute top-1 left-1 shadow transition-transform duration-300"></div>
+            </button>
+          </div>
+          <button class="w-full bg-secondary text-on-primary py-3 rounded-xl font-bold flex items-center justify-center gap-2 active:scale-95 transition-transform" id="btn-oled">
+            <span class="material-symbols-outlined text-xl">image</span>
+            Update OLED Canvas
+          </button>
+        </div>
+      </div>
+      <!-- Melody Selection -->
+      <div class="bg-white p-6 rounded-[24px] soft-shadow border border-subtle">
+        <p class="font-label-caps text-label-caps text-text-muted mb-4 text-center">SOUNDSCAPE</p>
+        <div class="grid grid-cols-2 gap-4">
+          <button class="p-4 rounded-2xl bg-surface-container-low border border-subtle flex flex-col items-center gap-2 hover:bg-primary-container transition-colors group" onclick="sendCMD('5')">
+            <span class="material-symbols-outlined text-primary group-hover:scale-110 transition-transform">notifications_active</span>
+            <span class="text-xs font-bold text-text-main">School Bell</span>
+          </button>
+          <button class="p-4 rounded-2xl bg-surface-container-low border border-subtle flex flex-col items-center gap-2 hover:bg-primary-container transition-colors group" onclick="sendCMD('6')">
+            <span class="material-symbols-outlined text-primary group-hover:scale-110 transition-transform">star</span>
+            <span class="text-xs font-bold text-text-main">Twinkle Star</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Live Terminal -->
+    <section class="space-y-4 pb-8" id="view-logs">
+      <div class="flex items-center justify-between px-1">
+        <h4 class="font-label-caps text-label-caps text-text-muted">SYSTEM LOGS</h4>
+        <div class="flex items-center gap-3">
+          <label class="flex items-center gap-1.5 text-[10px] font-bold text-text-muted cursor-pointer">
+            <input type="checkbox" id="autoscroll-chk" checked class="rounded border-subtle text-primary focus:ring-primary w-3.5 h-3.5" />
+            <span>Auto Scroll</span>
+          </label>
+          <button class="text-[10px] font-bold text-primary uppercase" onclick="document.getElementById('terminal').innerHTML = ''">Clear</button>
+        </div>
+      </div>
+      <div class="w-full h-32 bg-surface-container-highest/50 backdrop-blur rounded-2xl p-4 font-mono text-[10px] text-text-main overflow-y-auto terminal-scroll space-y-1 border border-subtle" id="terminal">
+        <div class="text-primary opacity-50 italic">Waiting for connection...</div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Bottom Nav Bar -->
+  <nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-6 pb-6 pt-4 bg-surface-glass backdrop-blur-2xl rounded-t-[32px] border-t border-subtle shadow-[0_-10px_30px_rgba(0,0,0,0.03)]">
+    <a class="flex flex-col items-center justify-center text-primary relative after:content-[''] after:absolute after:-bottom-1 after:w-1 after:h-1 after:bg-primary after:rounded-full active:scale-95 transition-all duration-200" href="#" id="nav-home">
+      <span class="material-symbols-outlined">home</span>
+      <span class="font-label-caps text-label-caps mt-1">Home</span>
+    </a>
+    <a class="flex flex-col items-center justify-center text-text-muted hover:text-primary transition-colors active:scale-95 transition-all duration-200" href="#" id="nav-devices">
+      <span class="material-symbols-outlined">smart_toy</span>
+      <span class="font-label-caps text-label-caps mt-1">Devices</span>
+    </a>
+    <a class="flex flex-col items-center justify-center text-text-muted hover:text-primary transition-colors active:scale-95 transition-all duration-200" href="#" id="nav-logs">
+      <span class="material-symbols-outlined">terminal</span>
+      <span class="font-label-caps text-label-caps mt-1">Logs</span>
+    </a>
+  </nav>
+
+  <!-- Toast Container -->
+  <div id="toast-container" class="fixed bottom-24 left-1/2 -translate-x-1/2 z-[999] flex flex-col gap-2 w-[calc(100%-48px)] max-w-[360px] pointer-events-none"></div>
+
+  <!-- Real Web Bluetooth & Dashboard Logic -->
+  <script>
+    // 1. BLE NUS Protocol constants & state
+    const NUS_SERVICE_UUID = '6e400001-b5a3-f393-e0a9-e50e24dcca9e';
+    const NUS_RX_UUID = '6e400002-b5a3-f393-e0a9-e50e24dcca9e';
+    const NUS_TX_UUID = '6e400003-b5a3-f393-e0a9-e50e24dcca9e';
+
+    let bleDevice = null;
+    let rxChar = null;
+    let txChar = null;
+    let rxBuffer = ""; 
+
+    // UI Elements
+    const connOverlay = document.getElementById('conn-overlay');
+    const btnConnect = document.getElementById('btn-connect');
+    const statusPill = document.getElementById('status-pill');
+    const btnDisconnectHeader = document.getElementById('btn-disconnect-header');
+    const mainWorkspace = document.getElementById('dashboard-main');
+    const terminalLog = document.getElementById('terminal');
+    const autoscrollChk = document.getElementById('autoscroll-chk');
+    const btnRefreshAll = document.getElementById('btn-refresh-all');
+
+    // 2. BLE Connection / Disconnection Logic
+    async function connectBLE() {
+      setBLEStatus('scanning', 'Scanning...');
+      btnConnect.textContent = 'Scanning...';
+      btnConnect.disabled = true;
+      const scanAll = document.getElementById('scan-all-chk').checked;
+      showToast(scanAll ? 'Searching for all Bluetooth devices.' : 'Searching for nearby ESP_ devices.');
+      try {
+        let options = {};
+        if (scanAll) {
+          options = {
+            acceptAllDevices: true,
+            optionalServices: [NUS_SERVICE_UUID]
+          };
+        } else {
+          options = {
+            filters: [
+              { services: [NUS_SERVICE_UUID] },
+              { namePrefix: 'ESP_' }
+            ]
+          };
+        }
+        bleDevice = await navigator.bluetooth.requestDevice(options);
+
+        setBLEStatus('connecting', 'Connecting...');
+        btnConnect.textContent = 'Connecting...';
+        logTerminal('SYSTEM', `Found device: ${bleDevice.name}. Connecting GATT server...`);
+
+        bleDevice.addEventListener('gattserverdisconnected', handleDisconnect);
+        const server = await bleDevice.gatt.connect();
+
+        setBLEStatus('connecting', 'Loading NUS...');
+        const service = await server.getPrimaryService(NUS_SERVICE_UUID);
+
+        logTerminal('SYSTEM', 'NUS Service discovered. Binding characteristics...');
+        rxChar = await service.getCharacteristic(NUS_RX_UUID);
+        txChar = await service.getCharacteristic(NUS_TX_UUID);
+
+        await txChar.startNotifications();
+        txChar.addEventListener('characteristicvaluechanged', handleNotification);
+
+        setBLEStatus('connected', 'Connected');
+        showToast(`Connected to ${bleDevice.name}!`);
+        logTerminal('SYSTEM', `Successfully connected! Device: ${bleDevice.name}`);
+
+        // Update top-right live group info
+        document.getElementById('device-title').textContent = bleDevice.name;
+        document.getElementById('device-subtitle').textContent = 'Smart Control Active';
+        document.getElementById('live-text').textContent = 'Live Now';
+
+        // Unlock dashboard workspace
+        connOverlay.classList.add('opacity-0', 'pointer-events-none');
+        mainWorkspace.classList.remove('blur-[4px]', 'pointer-events-none', 'opacity-60');
+        btnDisconnectHeader.style.display = 'block';
+
+        // Request initial sensor values
+        setTimeout(() => sendCMD('1'), 600); // DHT11 Temp/Humi
+        setTimeout(() => sendCMD('2'), 1200); // CdS Light
+
+      } catch (error) {
+        console.error(error);
+        logTerminal('SYSTEM', `Connection error: ${error.message}`);
+        setBLEStatus('disconnected', 'Disconnected');
+        btnConnect.textContent = 'Connect to ESP_JI';
+        btnConnect.disabled = false;
+        showToast('Connection cancelled or failed.');
+      }
+    }
+
+    function handleDisconnect() {
+      logTerminal('SYSTEM', 'Device disconnected.');
+      setBLEStatus('disconnected', 'Disconnected');
+      showToast('Bluetooth connection lost.');
+
+      // Lock UI and reset overlay state
+      connOverlay.classList.remove('opacity-0', 'pointer-events-none');
+      mainWorkspace.classList.add('blur-[4px]', 'pointer-events-none', 'opacity-60');
+      btnDisconnectHeader.style.display = 'none';
+
+      btnConnect.textContent = 'Connect to ESP_JI';
+      btnConnect.disabled = false;
+
+      document.getElementById('device-title').textContent = 'ESP_JI';
+      document.getElementById('device-subtitle').textContent = 'Searching for device...';
+      document.getElementById('live-text').textContent = 'Scanning';
+
+      bleDevice = null;
+      rxChar = null;
+      txChar = null;
+      rxBuffer = "";
+    }
+
+    function disconnectDevice() {
+      if (bleDevice && bleDevice.gatt.connected) {
+        bleDevice.gatt.disconnect();
+      }
+    }
+
+    function setBLEStatus(status, text) {
+      statusPill.textContent = text;
+      statusPill.className = 'px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest transition-colors';
+      if (status === 'disconnected') {
+        statusPill.classList.add('bg-surface-container-high', 'text-text-muted');
+      } else if (status === 'scanning' || status === 'connecting') {
+        statusPill.classList.add('bg-secondary-container', 'text-on-secondary-container');
+      } else if (status === 'connected') {
+        statusPill.classList.add('bg-primary-container', 'text-on-primary-container');
+      }
+    }
+
+    // 3. Command Sending (TX) and Response Parsing (RX)
+    async function sendCMD(cmd) {
+      if (!rxChar) {
+        showToast('ESP32 board is not connected!');
+        return;
+      }
+      try {
+        const encoder = new TextEncoder();
+        const data = encoder.encode(cmd);
+        await rxChar.writeValue(data);
+        logTerminal('TX', cmd);
+      } catch (error) {
+        logTerminal('SYSTEM', `TX Error: ${error.message}`);
+        showToast('Failed to send command.');
+      }
+    }
+
+    function handleNotification(event) {
+      const value = event.target.value;
+      const decoder = new TextDecoder('utf-8');
+      const text = decoder.decode(value);
+
+      rxBuffer += text;
+
+      let lines = rxBuffer.split('\n');
+      rxBuffer = lines.pop(); // Keep partial fragment in buffer
+
+      for (let line of lines) {
+        const trimmedLine = line.trim();
+        if (trimmedLine) {
+          processIncomingData(trimmedLine);
+        }
+      }
+    }
+
+    function processIncomingData(data) {
+      logTerminal('RX', data);
+      
+      // 1) Parse temperature (e.g. "temp : 24")
+      if (data.includes('temp')) {
+        const match = data.match(/temp\s*:\s*(\d+)/);
+        if (match) {
+          document.getElementById('temp-val').textContent = match[1];
+          triggerHighlight('card-temp');
+          showToast(`Temperature Updated: ${match[1]}°C`);
+        }
+      }
+      // 2) Parse humidity (e.g. "humi : 45")
+      else if (data.includes('humi')) {
+        const match = data.match(/humi\s*:\s*(\d+)/);
+        if (match) {
+          document.getElementById('humi-val').textContent = match[1] + '% Humidity';
+          triggerHighlight('card-temp');
+        }
+      }
+      // 3) Parse light ADC value (numeric string, e.g. "320")
+      else if (/^\d+$/.test(data)) {
+        const cdsVal = parseInt(data, 10);
+        document.getElementById('lux-val').textContent = cdsVal;
+
+        // Set light percent indicator bar
+        const percent = Math.min(Math.max((4095 - cdsVal) / 4095 * 100, 0), 100);
+        document.getElementById('lux-bar').style.width = percent.toFixed(0) + '%';
+
+        const descEl = document.getElementById('light-desc');
+        if (cdsVal > 4000) {
+          descEl.textContent = "어두움 (It's dark) - 블라인드 하강";
+          descEl.className = "text-[10px] font-semibold text-tertiary pt-1 truncate";
+        } else {
+          descEl.textContent = "밝음 (It's bright) - 블라인드 상승";
+          descEl.className = "text-[10px] font-semibold text-text-muted pt-1 truncate";
+        }
+
+        triggerHighlight('card-light');
+        showToast(`CdS Light Value: ${cdsVal} ADC`);
+      }
+    }
+
+    function triggerHighlight(elementId) {
+      const card = document.getElementById(elementId);
+      if (card) {
+        card.classList.remove('active-glow');
+        void card.offsetWidth; // force DOM reflow
+        card.classList.add('active-glow');
+        setTimeout(() => card.classList.remove('active-glow'), 1000);
+      }
+    }
+
+    // 4. Terminal logging & toasts
+    function logTerminal(type, message) {
+      const now = new Date();
+      const timeStr = now.toTimeString().split(' ')[0];
+
+      const entry = document.createElement('div');
+      let colorClass = 'text-primary';
+      if (type === 'error' || type === 'SYSTEM') colorClass = 'text-error';
+      else if (type === 'TX') colorClass = 'text-secondary';
+      else if (type === 'RX') colorClass = 'text-primary font-bold';
+
+      entry.innerHTML = `<span class="opacity-40 mr-2">[${timeStr}]</span><span class="${colorClass}">${type}: ${escapeHtml(message)}</span>`;
+      terminalLog.appendChild(entry);
+
+      if (autoscrollChk.checked) {
+        terminalLog.scrollTop = terminalLog.scrollHeight;
+      }
+    }
+
+    // HTML escape utility
+    function escapeHtml(text) {
+      return text
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    function showToast(message) {
+      const container = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+      toast.className = 'toast';
+      toast.innerHTML = `<span class="material-symbols-outlined text-sm">info</span><span>${message}</span>`;
+      container.appendChild(toast);
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        setTimeout(() => toast.remove(), 300);
+      }, 2500);
+    }
+
+    // 5. Toggle Switch Controllers UI sync
+    function handleToggle(el, onCmd, offCmd) {
+      const state = el.getAttribute('data-state');
+      const circle = el.querySelector('div');
+      if (state === 'off') {
+        el.setAttribute('data-state', 'on');
+        el.classList.remove('bg-surface-container');
+        el.classList.add('bg-primary');
+        circle.classList.add('translate-x-6');
+        sendCMD(onCmd);
+      } else {
+        el.setAttribute('data-state', 'off');
+        el.classList.add('bg-surface-container');
+        el.classList.remove('bg-primary');
+        circle.classList.remove('translate-x-6');
+        sendCMD(offCmd);
+      }
+    }
+
+    // Event listeners
+    btnConnect.addEventListener('click', connectBLE);
+    btnDisconnectHeader.addEventListener('click', disconnectDevice);
+    btnRefreshAll.addEventListener('click', () => {
+      sendCMD('1');
+      setTimeout(() => sendCMD('2'), 600);
+    });
+
+    const rgbToggle = document.getElementById('toggle-rgb');
+    const lcdToggle = document.getElementById('toggle-lcd');
+    const oledBtn = document.getElementById('btn-oled');
+
+    rgbToggle.addEventListener('click', () => handleToggle(rgbToggle, '7', '8'));
+    lcdToggle.addEventListener('click', () => handleToggle(lcdToggle, '3', '4'));
+    oledBtn.addEventListener('click', () => sendCMD('9'));
+
+    // 6. Navigation Smooth Scrolling
+    const navHome = document.getElementById('nav-home');
+    const navDevices = document.getElementById('nav-devices');
+    const navLogs = document.getElementById('nav-logs');
+
+    function setActiveNav(activeBtn) {
+      [navHome, navDevices, navLogs].forEach(btn => {
+        btn.classList.remove('text-primary');
+        btn.classList.add('text-text-muted');
+        btn.classList.remove("after:content-['']", 'after:absolute', 'after:-bottom-1', 'after:w-1', 'after:h-1', 'after:bg-primary', 'after:rounded-full');
+      });
+      activeBtn.classList.add('text-primary');
+      activeBtn.classList.remove('text-text-muted');
+      activeBtn.classList.add("after:content-['']", 'after:absolute', 'after:-bottom-1', 'after:w-1', 'after:h-1', 'after:bg-primary', 'after:rounded-full');
+    }
+
+    navHome.addEventListener('click', (e) => {
+      e.preventDefault();
+      document.getElementById('view-home').scrollIntoView({ behavior: 'smooth', block: 'center' });
+      setActiveNav(navHome);
+    });
+
+    navDevices.addEventListener('click', (e) => {
+      e.preventDefault();
+      document.getElementById('view-controls').scrollIntoView({ behavior: 'smooth', block: 'center' });
+      setActiveNav(navDevices);
+    });
+
+    navLogs.addEventListener('click', (e) => {
+      e.preventDefault();
+      document.getElementById('view-logs').scrollIntoView({ behavior: 'smooth', block: 'center' });
+      setActiveNav(navLogs);
+    });
+
+  </script>
+</body>
+</html>
