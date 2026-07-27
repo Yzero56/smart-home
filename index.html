@@ -500,7 +500,7 @@
         console.error(error);
         logTerminal('SYSTEM', `Connection error: ${error.message}`);
         setBLEStatus('disconnected', 'Disconnected');
-        btnConnect.textContent = 'Connect to ESP_JI';
+        btnConnect.textContent = 'Connect to ESP Device';
         btnConnect.disabled = false;
         showToast('Connection cancelled or failed.');
       }
@@ -516,7 +516,7 @@
       mainWorkspace.classList.add('blur-[4px]', 'pointer-events-none', 'opacity-60');
       btnDisconnectHeader.style.display = 'none';
 
-      btnConnect.textContent = 'Connect to ESP_JI';
+      btnConnect.textContent = 'Connect to ESP Device';
       btnConnect.disabled = false;
 
       document.getElementById('device-title').textContent = 'ESP_JI';
