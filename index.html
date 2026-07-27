@@ -1,12 +1,16 @@
 <!DOCTYPE html>
 <html class="light" lang="en">
+
 <head>
-  <meta charset="utf-8"/>
-  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
   <title>YoungJi's Smart Home</title>
   <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap"
+    rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+    rel="stylesheet" />
   <script id="tailwind-config">
     tailwind.config = {
       darkMode: "class",
@@ -86,12 +90,12 @@
             "data-display": ["Plus Jakarta Sans"]
           },
           "fontSize": {
-            "headline-lg": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
-            "headline-lg-mobile": ["22px", {"lineHeight": "28px", "fontWeight": "600"}],
-            "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
-            "headline-xl": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
-            "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
-            "data-display": ["32px", {"lineHeight": "40px", "fontWeight": "500"}]
+            "headline-lg": ["28px", { "lineHeight": "36px", "fontWeight": "600" }],
+            "headline-lg-mobile": ["22px", { "lineHeight": "28px", "fontWeight": "600" }],
+            "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+            "headline-xl": ["40px", { "lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+            "label-caps": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+            "data-display": ["32px", { "lineHeight": "40px", "fontWeight": "500" }]
           }
         },
       },
@@ -104,30 +108,38 @@
       color: #191c1d;
       -webkit-tap-highlight-color: transparent;
     }
+
     .glass {
       background: rgba(255, 255, 255, 0.7);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
     }
+
     .soft-shadow {
-      box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
     }
+
     .active-glow {
       box-shadow: 0 0 20px rgba(165, 214, 206, 0.4);
     }
+
     .hide-scrollbar::-webkit-scrollbar {
       display: none;
     }
+
     .terminal-scroll::-webkit-scrollbar {
       width: 4px;
     }
+
     .terminal-scroll::-webkit-scrollbar-thumb {
       background: rgba(56, 102, 96, 0.2);
       border-radius: 10px;
     }
+
     body {
       min-height: max(884px, 100dvh);
     }
+
     .toast {
       background: rgba(25, 28, 29, 0.95);
       color: white;
@@ -142,54 +154,79 @@
       animation: slideUp 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
       transition: all 0.3s ease;
     }
+
     @keyframes slideUp {
-      from { opacity: 0; transform: translateY(12px) translateX(-50%); }
-      to { opacity: 1; transform: translateY(0) translateX(-50%); }
+      from {
+        opacity: 0;
+        transform: translateY(12px) translateX(-50%);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0) translateX(-50%);
+      }
     }
   </style>
 </head>
+
 <body class="min-h-screen pb-32">
   <!-- Bluetooth Connection Overlay -->
-  <div class="fixed inset-0 z-[100] glass flex flex-col items-center justify-center p-container-padding transition-all duration-500" id="conn-overlay">
+  <div
+    class="fixed inset-0 z-[100] glass flex flex-col items-center justify-center p-container-padding transition-all duration-500"
+    id="conn-overlay">
     <div class="relative w-64 h-64 mb-12 flex items-center justify-center">
       <div class="absolute inset-0 bg-primary/10 rounded-full animate-ping opacity-20"></div>
       <div class="w-48 h-48 bg-primary/20 rounded-full flex items-center justify-center">
-        <span class="material-symbols-outlined text-6xl text-primary animate-pulse" style="font-variation-settings: 'FILL' 1;">bluetooth</span>
+        <span class="material-symbols-outlined text-6xl text-primary animate-pulse"
+          style="font-variation-settings: 'FILL' 1;">bluetooth</span>
       </div>
     </div>
     <h2 class="font-headline-lg-mobile text-headline-lg-mobile text-center mb-2">Ready to Connect</h2>
-    <p class="text-text-muted text-center mb-4 max-w-[280px]">Turn on your ESP_JI device to start managing your smart home.</p>
+    <p class="text-text-muted text-center mb-4 max-w-[280px]">Turn on your ESP_JI device to start managing your smart
+      home.</p>
     <label class="flex items-center gap-2 mb-8 cursor-pointer select-none">
       <input type="checkbox" id="scan-all-chk" class="rounded border-subtle text-primary focus:ring-primary w-4 h-4" />
       <span class="text-xs font-semibold text-text-muted">모든 블루투스 기기 검색 (수동 연결)</span>
     </label>
-    <button class="w-full max-w-[320px] bg-primary text-on-primary py-4 rounded-full font-bold text-lg soft-shadow active:scale-95 transition-transform" id="btn-connect">
-      Connect to ESP_JI
+    <button
+      class="w-full max-w-[320px] bg-primary text-on-primary py-4 rounded-full font-bold text-lg soft-shadow active:scale-95 transition-transform"
+      id="btn-connect">
+      Connect to ESP Device
     </button>
   </div>
 
   <!-- Top App Bar -->
-  <header class="fixed top-0 left-0 w-full z-50 flex items-center justify-between px-container-padding h-16 bg-surface-glass backdrop-blur-xl border-b border-subtle shadow-sm">
+  <header
+    class="fixed top-0 left-0 w-full z-50 flex items-center justify-between px-container-padding h-16 bg-surface-glass backdrop-blur-xl border-b border-subtle shadow-sm">
     <div class="flex items-center gap-3">
-      <span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">bluetooth_connected</span>
+      <span class="material-symbols-outlined text-primary"
+        style="font-variation-settings: 'FILL' 1;">bluetooth_connected</span>
       <h1 class="font-headline-lg-mobile text-headline-lg-mobile font-bold text-on-surface">YoungJi's Smart Home</h1>
     </div>
     <div class="flex items-center gap-2">
-      <div class="px-3 py-1 rounded-full bg-surface-container-high text-[10px] font-bold uppercase tracking-widest text-text-muted transition-colors" id="status-pill">
+      <div
+        class="px-3 py-1 rounded-full bg-surface-container-high text-[10px] font-bold uppercase tracking-widest text-text-muted transition-colors"
+        id="status-pill">
         Disconnected
       </div>
-      <button class="material-symbols-outlined text-primary hover:opacity-80 transition-opacity active:scale-90" id="btn-disconnect-header" style="display:none;">logout</button>
+      <button class="material-symbols-outlined text-primary hover:opacity-80 transition-opacity active:scale-90"
+        id="btn-disconnect-header" style="display:none;">logout</button>
     </div>
   </header>
 
   <!-- Main Dashboard Content -->
-  <main class="mt-24 px-container-padding max-w-[480px] mx-auto space-y-6 blur-[4px] pointer-events-none opacity-60 transition-all duration-300" id="dashboard-main">
-    
+  <main
+    class="mt-24 px-container-padding max-w-[480px] mx-auto space-y-6 blur-[4px] pointer-events-none opacity-60 transition-all duration-300"
+    id="dashboard-main">
+
     <div id="view-home" class="space-y-6">
       <!-- Hero Device Preview -->
-      <div class="relative w-full h-64 rounded-[32px] overflow-hidden soft-shadow border border-subtle bg-primary-container/20 p-6 flex flex-col justify-between">
+      <div
+        class="relative w-full h-64 rounded-[32px] overflow-hidden soft-shadow border border-subtle bg-primary-container/20 p-6 flex flex-col justify-between">
         <div class="absolute top-0 right-0 w-1/2 h-full">
-          <img class="w-full h-full object-contain object-right transform translate-x-4 scale-110" data-alt="A sleek minimalist IoT device render on a soft mint green background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAIP_LIHQNvL8_KSBsreSYnezuiB5xXfbEJUOX1BPOp0fUs8gm0tkMu3p7tQJP-HGxUxevK19X6oTjM_dlBYX9ccuLGes8SRPYuU9zHtIv0vfRjLFqLTJlEY8KWQntPwuWMeQveE7qgTrIsoSuYg41ACsCleInj5YXqa4WiXMO5LtH2zBp6ijXyDUJgG-iNB4IRayilnHqFhxvj9rBLGLQo-Z8j9vKA-jdIXDpSpJBIGK55UBrIWXmK9EjIM3T69_JWr8JoTd6JlQQ"/>
+          <img class="w-full h-full object-contain object-right transform translate-x-4 scale-110"
+            data-alt="A sleek minimalist IoT device render on a soft mint green background."
+            src="https://lh3.googleusercontent.com/aida-public/AB6AXuAIP_LIHQNvL8_KSBsreSYnezuiB5xXfbEJUOX1BPOp0fUs8gm0tkMu3p7tQJP-HGxUxevK19X6oTjM_dlBYX9ccuLGes8SRPYuU9zHtIv0vfRjLFqLTJlEY8KWQntPwuWMeQveE7qgTrIsoSuYg41ACsCleInj5YXqa4WiXMO5LtH2zBp6ijXyDUJgG-iNB4IRayilnHqFhxvj9rBLGLQo-Z8j9vKA-jdIXDpSpJBIGK55UBrIWXmK9EjIM3T69_JWr8JoTd6JlQQ" />
         </div>
         <div class="relative z-10">
           <div class="inline-flex items-center gap-2 px-3 py-1 bg-white/50 backdrop-blur rounded-full mb-4">
@@ -220,7 +257,8 @@
         <div class="bg-white p-5 rounded-[24px] soft-shadow border border-subtle space-y-4" id="card-temp">
           <div class="flex justify-between items-start">
             <div class="p-2 bg-primary/10 rounded-xl">
-              <span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">thermostat</span>
+              <span class="material-symbols-outlined text-primary"
+                style="font-variation-settings: 'FILL' 1;">thermostat</span>
             </div>
             <span class="text-[10px] font-bold text-text-muted uppercase mt-1">Climate</span>
           </div>
@@ -239,7 +277,8 @@
         <div class="bg-white p-5 rounded-[24px] soft-shadow border border-subtle space-y-4" id="card-light">
           <div class="flex justify-between items-start">
             <div class="p-2 bg-secondary/10 rounded-xl">
-              <span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">wb_sunny</span>
+              <span class="material-symbols-outlined text-secondary"
+                style="font-variation-settings: 'FILL' 1;">wb_sunny</span>
             </div>
             <span class="text-[10px] font-bold text-text-muted uppercase mt-1">Light</span>
           </div>
@@ -265,15 +304,19 @@
         <div class="bg-white p-6 rounded-[24px] soft-shadow border border-subtle flex items-center justify-between">
           <div class="flex items-center gap-4">
             <div class="w-12 h-12 bg-primary/10 rounded-2xl flex items-center justify-center">
-              <span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">palette</span>
+              <span class="material-symbols-outlined text-primary"
+                style="font-variation-settings: 'FILL' 1;">palette</span>
             </div>
             <div>
               <p class="font-bold text-text-main">RGB Ambient LED</p>
               <p class="text-xs text-text-muted">Smart Status Light</p>
             </div>
           </div>
-          <button class="w-14 h-8 rounded-full bg-surface-container relative transition-colors duration-300 active:scale-95" data-state="off" id="toggle-rgb">
-            <div class="w-6 h-6 bg-white rounded-full absolute top-1 left-1 shadow transition-transform duration-300"></div>
+          <button
+            class="w-14 h-8 rounded-full bg-surface-container relative transition-colors duration-300 active:scale-95"
+            data-state="off" id="toggle-rgb">
+            <div class="w-6 h-6 bg-white rounded-full absolute top-1 left-1 shadow transition-transform duration-300">
+            </div>
           </button>
         </div>
         <!-- Display Control -->
@@ -281,18 +324,24 @@
           <div class="flex items-center justify-between mb-6">
             <div class="flex items-center gap-4">
               <div class="w-12 h-12 bg-secondary/10 rounded-2xl flex items-center justify-center">
-                <span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">desktop_windows</span>
+                <span class="material-symbols-outlined text-secondary"
+                  style="font-variation-settings: 'FILL' 1;">desktop_windows</span>
               </div>
               <div>
                 <p class="font-bold text-text-main">Interface Panels</p>
                 <p class="text-xs text-text-muted">LCD &amp; OLED Control</p>
               </div>
             </div>
-            <button class="w-14 h-8 rounded-full bg-surface-container relative transition-colors duration-300 active:scale-95" data-state="off" id="toggle-lcd">
-              <div class="w-6 h-6 bg-white rounded-full absolute top-1 left-1 shadow transition-transform duration-300"></div>
+            <button
+              class="w-14 h-8 rounded-full bg-surface-container relative transition-colors duration-300 active:scale-95"
+              data-state="off" id="toggle-lcd">
+              <div class="w-6 h-6 bg-white rounded-full absolute top-1 left-1 shadow transition-transform duration-300">
+              </div>
             </button>
           </div>
-          <button class="w-full bg-secondary text-on-primary py-3 rounded-xl font-bold flex items-center justify-center gap-2 active:scale-95 transition-transform" id="btn-oled">
+          <button
+            class="w-full bg-secondary text-on-primary py-3 rounded-xl font-bold flex items-center justify-center gap-2 active:scale-95 transition-transform"
+            id="btn-oled">
             <span class="material-symbols-outlined text-xl">image</span>
             Update OLED Canvas
           </button>
@@ -302,11 +351,16 @@
       <div class="bg-white p-6 rounded-[24px] soft-shadow border border-subtle">
         <p class="font-label-caps text-label-caps text-text-muted mb-4 text-center">SOUNDSCAPE</p>
         <div class="grid grid-cols-2 gap-4">
-          <button class="p-4 rounded-2xl bg-surface-container-low border border-subtle flex flex-col items-center gap-2 hover:bg-primary-container transition-colors group" onclick="sendCMD('5')">
-            <span class="material-symbols-outlined text-primary group-hover:scale-110 transition-transform">notifications_active</span>
+          <button
+            class="p-4 rounded-2xl bg-surface-container-low border border-subtle flex flex-col items-center gap-2 hover:bg-primary-container transition-colors group"
+            onclick="sendCMD('5')">
+            <span
+              class="material-symbols-outlined text-primary group-hover:scale-110 transition-transform">notifications_active</span>
             <span class="text-xs font-bold text-text-main">School Bell</span>
           </button>
-          <button class="p-4 rounded-2xl bg-surface-container-low border border-subtle flex flex-col items-center gap-2 hover:bg-primary-container transition-colors group" onclick="sendCMD('6')">
+          <button
+            class="p-4 rounded-2xl bg-surface-container-low border border-subtle flex flex-col items-center gap-2 hover:bg-primary-container transition-colors group"
+            onclick="sendCMD('6')">
             <span class="material-symbols-outlined text-primary group-hover:scale-110 transition-transform">star</span>
             <span class="text-xs font-bold text-text-main">Twinkle Star</span>
           </button>
@@ -320,36 +374,46 @@
         <h4 class="font-label-caps text-label-caps text-text-muted">SYSTEM LOGS</h4>
         <div class="flex items-center gap-3">
           <label class="flex items-center gap-1.5 text-[10px] font-bold text-text-muted cursor-pointer">
-            <input type="checkbox" id="autoscroll-chk" checked class="rounded border-subtle text-primary focus:ring-primary w-3.5 h-3.5" />
+            <input type="checkbox" id="autoscroll-chk" checked
+              class="rounded border-subtle text-primary focus:ring-primary w-3.5 h-3.5" />
             <span>Auto Scroll</span>
           </label>
-          <button class="text-[10px] font-bold text-primary uppercase" onclick="document.getElementById('terminal').innerHTML = ''">Clear</button>
+          <button class="text-[10px] font-bold text-primary uppercase"
+            onclick="document.getElementById('terminal').innerHTML = ''">Clear</button>
         </div>
       </div>
-      <div class="w-full h-32 bg-surface-container-highest/50 backdrop-blur rounded-2xl p-4 font-mono text-[10px] text-text-main overflow-y-auto terminal-scroll space-y-1 border border-subtle" id="terminal">
+      <div
+        class="w-full h-32 bg-surface-container-highest/50 backdrop-blur rounded-2xl p-4 font-mono text-[10px] text-text-main overflow-y-auto terminal-scroll space-y-1 border border-subtle"
+        id="terminal">
         <div class="text-primary opacity-50 italic">Waiting for connection...</div>
       </div>
     </section>
   </main>
 
   <!-- Bottom Nav Bar -->
-  <nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-6 pb-6 pt-4 bg-surface-glass backdrop-blur-2xl rounded-t-[32px] border-t border-subtle shadow-[0_-10px_30px_rgba(0,0,0,0.03)]">
-    <a class="flex flex-col items-center justify-center text-primary relative after:content-[''] after:absolute after:-bottom-1 after:w-1 after:h-1 after:bg-primary after:rounded-full active:scale-95 transition-all duration-200" href="#" id="nav-home">
+  <nav
+    class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-6 pb-6 pt-4 bg-surface-glass backdrop-blur-2xl rounded-t-[32px] border-t border-subtle shadow-[0_-10px_30px_rgba(0,0,0,0.03)]">
+    <a class="flex flex-col items-center justify-center text-primary relative after:content-[''] after:absolute after:-bottom-1 after:w-1 after:h-1 after:bg-primary after:rounded-full active:scale-95 transition-all duration-200"
+      href="#" id="nav-home">
       <span class="material-symbols-outlined">home</span>
       <span class="font-label-caps text-label-caps mt-1">Home</span>
     </a>
-    <a class="flex flex-col items-center justify-center text-text-muted hover:text-primary transition-colors active:scale-95 transition-all duration-200" href="#" id="nav-devices">
+    <a class="flex flex-col items-center justify-center text-text-muted hover:text-primary transition-colors active:scale-95 transition-all duration-200"
+      href="#" id="nav-devices">
       <span class="material-symbols-outlined">smart_toy</span>
       <span class="font-label-caps text-label-caps mt-1">Devices</span>
     </a>
-    <a class="flex flex-col items-center justify-center text-text-muted hover:text-primary transition-colors active:scale-95 transition-all duration-200" href="#" id="nav-logs">
+    <a class="flex flex-col items-center justify-center text-text-muted hover:text-primary transition-colors active:scale-95 transition-all duration-200"
+      href="#" id="nav-logs">
       <span class="material-symbols-outlined">terminal</span>
       <span class="font-label-caps text-label-caps mt-1">Logs</span>
     </a>
   </nav>
 
   <!-- Toast Container -->
-  <div id="toast-container" class="fixed bottom-24 left-1/2 -translate-x-1/2 z-[999] flex flex-col gap-2 w-[calc(100%-48px)] max-w-[360px] pointer-events-none"></div>
+  <div id="toast-container"
+    class="fixed bottom-24 left-1/2 -translate-x-1/2 z-[999] flex flex-col gap-2 w-[calc(100%-48px)] max-w-[360px] pointer-events-none">
+  </div>
 
   <!-- Real Web Bluetooth & Dashboard Logic -->
   <script>
@@ -361,7 +425,7 @@
     let bleDevice = null;
     let rxChar = null;
     let txChar = null;
-    let rxBuffer = ""; 
+    let rxBuffer = "";
 
     // UI Elements
     const connOverlay = document.getElementById('conn-overlay');
@@ -520,7 +584,7 @@
 
     function processIncomingData(data) {
       logTerminal('RX', data);
-      
+
       // 1) Parse temperature (e.g. "temp : 24")
       if (data.includes('temp')) {
         const match = data.match(/temp\s*:\s*(\d+)/);
@@ -683,4 +747,5 @@
 
   </script>
 </body>
+
 </html>
