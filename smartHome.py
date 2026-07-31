@@ -42,7 +42,7 @@ touch3 = Pin(18, Pin.IN)
 touch4 = Pin(19, Pin.IN)
 
 # DHT11 온습도 센서 초기화 (Pin 14) 안되면 4번 핀으로 
-d = dht.DHT11(Pin(14))
+d = dht.DHT11(Pin(4))
 
 # TV (I2C LCD 16x2) 초기화 (SDA Pin 21, SCL Pin 22)
 i2c = SoftI2C(sda=Pin(21), scl=Pin(22))
@@ -151,7 +151,7 @@ def on_rx(v):
     
     # '9' 수신 시: OLED에 Choonsik PBM 단색 비트맵 이미지 드로잉
     if v == '9':
-        with open('img/choonsik.pbm', 'rb') as f:
+        with open('/image/choonsik3.pbm', 'rb') as f:
             f.readline() # PBM 포맷 헤더 스킵
             f.readline() # 이미지 크기 헤더 스킵
             data = bytearray(f.read())
@@ -159,7 +159,7 @@ def on_rx(v):
         display2.invert(0)
         display2.fill(0)
         display2.blit(fb, 0, 0)
-        display2.show()
+        display2.show()	
 
 # 블루투스 수신 데이터 바인딩
 p.on_write(on_rx)
